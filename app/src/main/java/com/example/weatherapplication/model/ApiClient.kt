@@ -17,5 +17,5 @@ interface ApiClient {
     fun getListWeather(
         @Path("lat") latitude: String,
         @Path("lon") longitude: String
-    ): Single<List<WeatherListModel>>
+    ): Single<WeatherListModel>
 }
