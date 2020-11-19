@@ -2,7 +2,24 @@ package com.example.weatherapplication.model
 
 import io.reactivex.Single
 
-interface WeatherRepository {
-    fun geCurrentWeather(city: String): Single<CurrentWeatherModel>
-    fun getWeatherList(city: String): Single<WeatherListModel>
+
+class WeatherRepository {
+
+    private val api = JsonSingleton.api
+
+    fun getWeather(
+        latitude: String,
+        longitude: String
+    ): Single<CurrentWeatherModel> {
+        return api.getCurrentWeather(latitude, longitude)
+    }
+
+    fun getWeatherList(
+        latitude: String,
+        longitude: String
+    ): Single<List<WeatherListModel>> {
+        return api.getListWeather(latitude, longitude)
+    }
+
+
 }
