@@ -17,7 +17,7 @@ class WeatherRepository {
     fun getWeatherList(
         latitude: String,
         longitude: String
-    ): Single<List<WeatherListModel>> {
+    ): Single<WeatherListModel> {
         return api.getListWeather(latitude, longitude)
     }
 
