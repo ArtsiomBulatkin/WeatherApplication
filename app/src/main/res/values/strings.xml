@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Weather application</string>
+    <string name="humidity_text">57 %</string>
+    <string name="_1_0_mm">1.0 mm</string>
+    <string name="pressure_text">1019 hPa</string>
+    <string name="speed_text">20 km/h</string>
+    <string name="wind_text">SE</string>
+    <string name="today_text">Today</string>
+    <string name="share_text">Share</string>
+    <string name="temp_text">22°С | Sunny</string>
+    <string name="share">Share</string>
+    <string name="london_uk">London, UK</string>
+
+    <string name="location_permission">Location Permission</string>
+    <string name="access_location_message">This application requires access to your location to function!</string>
+    <string name="no">No</string>
+    <string name="ask_me">Ask me</string>
+    <string name="gps_required_message">GPS is required for this application to function!</string>
+    <string name="today">Today</string>
+    <string name="forecast">Forecast</string>
 </resources>

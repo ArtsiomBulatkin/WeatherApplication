@@ -6,5 +6,5 @@ import com.example.weatherapplication.model.WeatherListModel
 interface ViewContract {
     fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel)
     fun loadListWeatherView(weatherListModel: WeatherListModel)
-    fun loadErrorMessage(message: String)
+
 }
