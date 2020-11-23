@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/todayTextView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/dp0"
         android:layout_marginTop="@dimen/dp16"
         android:layout_marginBottom="@dimen/dp16"
         android:gravity="center"
@@ -22,7 +22,7 @@
 
     <LinearLayout
         android:id="@+id/line"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/sp2"
         android:layout_marginTop="@dimen/dp16"
         android:background="@color/yellow"
@@ -37,7 +37,7 @@
         android:id="@+id/weatherImageView"
         android:layout_width="@dimen/dp100"
         android:layout_height="@dimen/dp100"
-        android:layout_marginTop="@dimen/dp52"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/line"
@@ -46,7 +46,7 @@
     <TextView
         android:id="@+id/locationTextView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/london_uk"
         android:textColor="@color/black"
@@ -61,7 +61,6 @@
         android:layout_height="@dimen/dp20"
         android:layout_marginEnd="@dimen/dp36"
         app:layout_constraintBottom_toBottomOf="@+id/locationTextView"
-
         app:layout_constraintEnd_toStartOf="@+id/locationTextView"
         app:layout_constraintTop_toTopOf="@+id/locationTextView"
         app:srcCompat="@drawable/mark" />
@@ -69,7 +68,7 @@
     <TextView
         android:id="@+id/tempTextView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp24"
         android:text="@string/temp_text"
         android:textColor="@color/blue"
@@ -80,7 +79,7 @@
 
     <LinearLayout
         android:id="@+id/lineTwo"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp2"
         android:layout_marginStart="@dimen/dp100"
         android:layout_marginTop="@dimen/dp52"
@@ -95,7 +94,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/weather_details"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp28"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +134,7 @@
         <TextView
             android:id="@+id/humidityTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:text="@string/humidity_text"
             android:textColor="@color/black"
@@ -147,7 +146,7 @@
         <TextView
             android:id="@+id/imageView2TextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:text="@string/_1_0_mm"
             android:textColor="@color/black"
@@ -159,7 +158,7 @@
         <TextView
             android:id="@+id/pressureTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:text="@string/pressure_text"
             android:textColor="@color/black"
@@ -193,7 +192,7 @@
         <TextView
             android:id="@+id/speedTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:text="@string/speed_text"
             android:textColor="@color/black"
@@ -205,7 +204,7 @@
         <TextView
             android:id="@+id/windTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
             android:text="@string/wind_text"
             android:textColor="@color/black"
@@ -219,7 +218,7 @@
 
     <LinearLayout
         android:id="@+id/lineThird"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp2"
         android:layout_marginStart="@dimen/dp100"
         android:layout_marginTop="@dimen/dp28"
@@ -235,9 +234,9 @@
     <TextView
         android:id="@+id/shareTextView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp36"
-        android:layout_marginBottom="@dimen/dp20"
+        android:layout_marginBottom="32dp"
         android:text="@string/share"
         android:textColor="@color/orange"
         android:textSize="@dimen/sp24"

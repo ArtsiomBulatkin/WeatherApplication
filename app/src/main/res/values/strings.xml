@@ -18,4 +18,5 @@
     <string name="gps_required_message">GPS is required for this application to function!</string>
     <string name="today">Today</string>
     <string name="forecast">Forecast</string>
+    <string name="qq">|</string>
 </resources>

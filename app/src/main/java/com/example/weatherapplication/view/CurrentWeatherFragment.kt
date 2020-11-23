@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +22,15 @@ import com.example.weatherapplication.utils.Constants
 import com.example.weatherapplication.utils.GpsUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_current_weather.*
+import timber.log.Timber
 
 
 class CurrentWeatherFragment : Fragment(), ViewContract {
 
     private lateinit var presenter: WeatherInfoPresenter
-    private var isGPSEnable = false
+    private var isCheckGPSEnable = false
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -37,7 +41,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         super.onCreate(savedInstanceState)
         GpsUtil(requireContext()).turnGPSOn(object : GpsUtil.OnGpsListener {
             override fun gpsStatus(isGPSEnabled: Boolean) {
-                this@CurrentWeatherFragment.isGPSEnable = isGPSEnable
+                this@CurrentWeatherFragment.isCheckGPSEnable = isGPSEnabled
             }
         })
     }
@@ -52,10 +56,9 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         presenter = WeatherInfoPresenter(this)
+        invokeLocation()
 
     }
 
@@ -65,19 +68,20 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
             allPermissionsGranted() -> {
                 getLocation()
                 presenter.loadDataCurrentWeather(lat, lon)
-
             }
             showRequestPermissionRationale() -> {
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
-                    .setNegativeButton(getString(R.string.no)) { _, _ -> requireActivity().finish() }
+                    .setNegativeButton(getString(R.string.no)) { _, _ -> presenter.loadDataCurrentWeather(lat, lon) }
                     .setPositiveButton(getString(R.string.ask_me)) { _, _ ->
-                        requestPermissions(PERMISSION, Constants.PERMISSINS_REQUEST)
+                        requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
+                        getLocation()
+                        presenter.loadDataCurrentWeather(lat, lon)
                     }
                     .show()
             }
-            !isGPSEnable -> {
+            !isCheckGPSEnable -> {
                 Toast.makeText(
                     context,
                     R.string.gps_required_message,
@@ -86,7 +90,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
                     .show()
             }
             else -> {
-                requestPermissions(PERMISSION, Constants.PERMISSINS_REQUEST)
+                requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
             }
         }
     }
@@ -114,20 +118,27 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Constants.PERMISSINS_REQUEST) {
+        if (requestCode == Constants.PERMISSIONS_REQUEST) {
             invokeLocation()
         }
     }
 
 
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
-//        if (currentWeatherModel != null){
-//
-//        }
+        val iconName = currentWeatherModel.weather.icon
+        val iconUrl = "http://openweathermap.org/img/wn/${iconName}@2x.png"
+        Picasso.get().load(iconUrl).into(weatherImageView)
+        todayTextView.text = currentWeatherModel.city
+        tempTextView.text = "${currentWeatherModel.main.temp} | ${currentWeatherModel.weather.description}"
+        humidityTextView.text = currentWeatherModel.main.humidity
     }
 
     override fun loadListWeatherView(weatherListModel: WeatherListModel) {
 
+    }
+
+    override fun loadErrorMessage(message: String) {
+    Timber.e(message)
     }
 
 

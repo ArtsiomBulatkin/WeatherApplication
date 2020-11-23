@@ -5,18 +5,19 @@ import io.reactivex.Single
 
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiClient {
 
-    @GET("weather?lat={lat}&lon={lon}&units=metric&mode=json&appid=${Constants.API_KEY}")
+    @GET("weather?units=metric&mode=json&appid=${Constants.API_KEY}")
     fun getCurrentWeather(
-        @Path("lat") latitude: String,
-        @Path("lon") longitude: String
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String
     ): Single<CurrentWeatherModel>
 
-    @GET("forecast?lat={lat}&lon={lon}&units=metric&mode=json&appid=${Constants.API_KEY}")
+    @GET("forecast?units=metric&mode=json&appid=${Constants.API_KEY}")
     fun getListWeather(
-        @Path("lat") latitude: String,
-        @Path("lon") longitude: String
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String
     ): Single<WeatherListModel>
 }

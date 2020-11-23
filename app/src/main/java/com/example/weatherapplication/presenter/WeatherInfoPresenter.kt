@@ -20,8 +20,8 @@ class WeatherInfoPresenter(val view: ViewContract) : PresenterContract {
             repo.getWeather(lat, lon)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { currentWeather -> view.loadCurrentWeatherView(currentWeather) }
-                   // { throwable -> view.loadErrorMessage("CurrentWeather Error occurred: $throwable") }
+                .subscribe( { currentWeather -> view.loadCurrentWeatherView(currentWeather) },
+                    { throwable -> view.loadErrorMessage("CurrentWeather Error occurred: $throwable") })
 
 
         )
@@ -32,8 +32,8 @@ class WeatherInfoPresenter(val view: ViewContract) : PresenterContract {
             repo.getWeatherList(lat, lon)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { listWeather -> view.loadListWeatherView(listWeather) }
-                   // { throwable -> view.loadErrorMessage("CurrentWeather Error occurred: $throwable") }
+                .subscribe ({ listWeather -> view.loadListWeatherView(listWeather) },
+                    { throwable -> view.loadErrorMessage("CurrentWeather Error occurred: $throwable") })
 
         )
     }

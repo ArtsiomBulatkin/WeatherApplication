@@ -19,5 +19,6 @@
     <dimen name="sp40">40sp</dimen>
     <dimen name="dp4">4dp</dimen>
     <dimen name="dp28">28dp</dimen>
+    <dimen name="dp0">0dp</dimen>
 
 </resources>

@@ -8,7 +8,7 @@ object Constants {
     const val CURRENT_FRAG_TAG = "current"
     const val LIST_FRAG_TAG = "list"
 
-    const val PERMISSINS_REQUEST: Int = 99
+    const val PERMISSIONS_REQUEST: Int = 99
 
     const val DEFAULT_LAT = "51.509865"
     const val DEFAULT_LON = "-0.118092"

@@ -15,7 +15,6 @@ class WeatherActivity : AppCompatActivity() {
 
         val currentWeatherFragment = CurrentWeatherFragment()
         val weatherListFragment = WeatherListFragment()
-        //val fragmentManager = supportFragmentManager
         var active : Fragment = currentWeatherFragment
 
         supportFragmentManager
