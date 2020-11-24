@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.WeatherListModel
@@ -56,7 +57,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         invokeLocation()
 
 
-
     }
 
 
@@ -64,7 +64,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         when {
             allPermissionsGranted() -> {
                 getLocation()
-                presenter.loadDataCurrentWeather(lat.toString(), lon.toString())
             }
             showRequestPermissionRationale() -> {
                 AlertDialog.Builder(requireContext())
@@ -76,10 +75,9 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
                             lon
                         )
                     }
-                    .setPositiveButton(getString(R.string.ask_me)) { _, _ ->
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
                         getLocation()
-                        presenter.loadDataCurrentWeather(lat, lon)
                     }
                     .show()
             }
@@ -97,19 +95,15 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         }
     }
 
-//    private fun setLocation (location : Location){
-//        lat = location.latitude.toString()
-//        lon = location.longitude.toString()
-//    }
-
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 lat = location?.latitude.toString()
                 lon = location?.longitude.toString()
+                presenter.loadDataCurrentWeather(lat, lon)
             }
-        }
+    }
 
 
     private fun allPermissionsGranted() = PERMISSION.all {
@@ -127,18 +121,17 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.PERMISSIONS_REQUEST) {
-            invokeLocation()
             getLocation()
-            presenter.loadDataCurrentWeather(lat, lon)
+
         }
     }
 
 
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
-        //val iconName = currentWeatherModel.weather[0].icon
-        //val iconUrl = "http://openweathermap.org/img/wn/$iconName@2x.png"
-        // Picasso.with(requireContext()).load("http://openweathermap.org/img/wn/01d@2x.png").into(weatherImageView)
-        //Glide.with(requireActivity()).load("http://openweathermap.org/img/wn/01d@2x.png").into(humidityImageView)
+
+        val iconName = currentWeatherModel.weather[0].icon
+        val iconUrl = "https://openweathermap.org/img/wn/$iconName@2x.png"
+        Glide.with(requireActivity()).load(iconUrl).into(weatherImageView)
 
         locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
         val temp = roundData(currentWeatherModel.main.temp)
