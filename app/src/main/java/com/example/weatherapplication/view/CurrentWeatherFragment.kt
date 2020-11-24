@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,8 @@ import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.WeatherListModel
 import com.example.weatherapplication.presenter.WeatherInfoPresenter
-import com.example.weatherapplication.utils.Constants
-import com.example.weatherapplication.utils.GpsUtil
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.squareup.picasso.Picasso
+import com.example.weatherapplication.utils.*
+import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_current_weather.*
 import timber.log.Timber
 
@@ -30,15 +26,15 @@ import timber.log.Timber
 class CurrentWeatherFragment : Fragment(), ViewContract {
 
     private lateinit var presenter: WeatherInfoPresenter
-    private var isCheckGPSEnable = false
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var isCheckGPSEnable = false
 
     private var lat = Constants.DEFAULT_LAT
     private var lon = Constants.DEFAULT_LON
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         GpsUtil(requireContext()).turnGPSOn(object : GpsUtil.OnGpsListener {
             override fun gpsStatus(isGPSEnabled: Boolean) {
                 this@CurrentWeatherFragment.isCheckGPSEnable = isGPSEnabled
@@ -56,9 +52,10 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         presenter = WeatherInfoPresenter(this)
         invokeLocation()
+
+
 
     }
 
@@ -67,13 +64,18 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         when {
             allPermissionsGranted() -> {
                 getLocation()
-                presenter.loadDataCurrentWeather(lat, lon)
+                presenter.loadDataCurrentWeather(lat.toString(), lon.toString())
             }
             showRequestPermissionRationale() -> {
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
-                    .setNegativeButton(getString(R.string.no)) { _, _ -> presenter.loadDataCurrentWeather(lat, lon) }
+                    .setNegativeButton(getString(R.string.no)) { _, _ ->
+                        presenter.loadDataCurrentWeather(
+                            lat,
+                            lon
+                        )
+                    }
                     .setPositiveButton(getString(R.string.ask_me)) { _, _ ->
                         requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
                         getLocation()
@@ -95,6 +97,11 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         }
     }
 
+//    private fun setLocation (location : Location){
+//        lat = location.latitude.toString()
+//        lon = location.longitude.toString()
+//    }
+
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         fusedLocationClient.lastLocation
@@ -102,7 +109,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
                 lat = location?.latitude.toString()
                 lon = location?.longitude.toString()
             }
-    }
+        }
+
 
     private fun allPermissionsGranted() = PERMISSION.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
@@ -120,17 +128,29 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.PERMISSIONS_REQUEST) {
             invokeLocation()
+            getLocation()
+            presenter.loadDataCurrentWeather(lat, lon)
         }
     }
 
 
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
-        val iconName = currentWeatherModel.weather.icon
-        val iconUrl = "http://openweathermap.org/img/wn/${iconName}@2x.png"
-        Picasso.get().load(iconUrl).into(weatherImageView)
-        todayTextView.text = currentWeatherModel.city
-        tempTextView.text = "${currentWeatherModel.main.temp} | ${currentWeatherModel.weather.description}"
-        humidityTextView.text = currentWeatherModel.main.humidity
+        //val iconName = currentWeatherModel.weather[0].icon
+        //val iconUrl = "http://openweathermap.org/img/wn/$iconName@2x.png"
+        // Picasso.with(requireContext()).load("http://openweathermap.org/img/wn/01d@2x.png").into(weatherImageView)
+        //Glide.with(requireActivity()).load("http://openweathermap.org/img/wn/01d@2x.png").into(humidityImageView)
+
+        locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
+        val temp = roundData(currentWeatherModel.main.temp)
+        tempTextView.text = "${temp}°С | ${currentWeatherModel.weather[0].description}"
+        humidityTextView.text = "${currentWeatherModel.main.humidity} %"
+        val visibility = meterToKm(currentWeatherModel.visibility)
+        visibilityTextView.text = "$visibility km"
+        pressureTextView.text = "${currentWeatherModel.main.pressure} hPa"
+        val speed = roundData(currentWeatherModel.wind.speed)
+        speedTextView.text = "$speed km/h"
+        val wind = windToDescription(currentWeatherModel.wind.deg)
+        windDescriptionTextView.text = wind
     }
 
     override fun loadListWeatherView(weatherListModel: WeatherListModel) {
@@ -138,7 +158,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
     }
 
     override fun loadErrorMessage(message: String) {
-    Timber.e(message)
+        Timber.e(message)
     }
 
 

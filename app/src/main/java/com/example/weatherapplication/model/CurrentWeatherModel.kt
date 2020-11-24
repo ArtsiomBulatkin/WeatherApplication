@@ -5,8 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class CurrentWeatherModel(
     @SerializedName("name")
     val city: String,
-    val weather: Weather,
+    val weather: List<Weather>,
     val main: Main,
+    val visibility: Int,
     val sys: Sys,
     val wind: Wind
 ) {
@@ -29,6 +30,7 @@ data class CurrentWeatherModel(
 
     data class Wind(
         val wind: String,
-        val deg: Int
+        val deg: Int,
+        val speed: String
     )
 }

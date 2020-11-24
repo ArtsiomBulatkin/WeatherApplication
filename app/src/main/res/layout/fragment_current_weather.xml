@@ -35,13 +35,13 @@
 
     <ImageView
         android:id="@+id/weatherImageView"
-        android:layout_width="@dimen/dp100"
-        android:layout_height="@dimen/dp100"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/line"
-        app:srcCompat="@drawable/ic_test" />
+        android:src="@drawable/ic_test"/>
 
     <TextView
         android:id="@+id/locationTextView"
@@ -80,7 +80,7 @@
     <LinearLayout
         android:id="@+id/lineTwo"
         android:layout_width="@dimen/dp0"
-        android:layout_height="@dimen/dp2"
+        android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp100"
         android:layout_marginTop="@dimen/dp52"
         android:layout_marginEnd="@dimen/dp100"
@@ -105,13 +105,14 @@
             android:id="@+id/humidityImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/visibilityImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_test" />
+            app:tint="@color/yellow"
+            app:srcCompat="@drawable/drops" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/visibilityImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             android:layout_marginStart="@dimen/dp32"
@@ -119,16 +120,18 @@
             app:layout_constraintEnd_toStartOf="@+id/pressureImageView"
             app:layout_constraintStart_toEndOf="@id/humidityImageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_test" />
+            app:tint="@color/yellow"
+            app:srcCompat="@drawable/glasses" />
 
         <ImageView
             android:id="@+id/pressureImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageView2"
+            app:layout_constraintStart_toEndOf="@id/visibilityImageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_test" />
+            app:tint="@color/yellow"
+            app:srcCompat="@drawable/barometer" />
 
 
         <TextView
@@ -144,16 +147,16 @@
             app:layout_constraintTop_toBottomOf="@+id/humidityImageView" />
 
         <TextView
-            android:id="@+id/imageView2TextView"
+            android:id="@+id/visibilityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:text="@string/_1_0_mm"
+            android:text="@string/visibility"
             android:textColor="@color/black"
             android:textSize="@dimen/sp16"
-            app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintEnd_toEndOf="@+id/visibilityImageView"
+            app:layout_constraintStart_toStartOf="@+id/visibilityImageView"
+            app:layout_constraintTop_toBottomOf="@+id/visibilityImageView" />
 
         <TextView
             android:id="@+id/pressureTextView"
@@ -175,8 +178,9 @@
             android:layout_marginTop="@dimen/dp20"
             app:layout_constraintEnd_toStartOf="@+id/windImageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2TextView"
-            app:srcCompat="@drawable/ic_test" />
+            app:layout_constraintTop_toBottomOf="@+id/visibilityTextView"
+            app:srcCompat="@drawable/wind"
+            app:tint="@color/yellow" />
 
         <ImageView
             android:id="@+id/windImageView"
@@ -186,8 +190,9 @@
             android:layout_marginEnd="@dimen/dp32"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/speedImageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2TextView"
-            app:srcCompat="@drawable/ic_test" />
+            app:layout_constraintTop_toBottomOf="@+id/visibilityTextView"
+            app:tint="@color/yellow"
+            app:srcCompat="@drawable/pressure" />
 
         <TextView
             android:id="@+id/speedTextView"
@@ -202,7 +207,7 @@
             app:layout_constraintTop_toBottomOf="@+id/speedImageView" />
 
         <TextView
-            android:id="@+id/windTextView"
+            android:id="@+id/windDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
@@ -219,7 +224,7 @@
     <LinearLayout
         android:id="@+id/lineThird"
         android:layout_width="@dimen/dp0"
-        android:layout_height="@dimen/dp2"
+        android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp100"
         android:layout_marginTop="@dimen/dp28"
         android:layout_marginEnd="@dimen/dp100"

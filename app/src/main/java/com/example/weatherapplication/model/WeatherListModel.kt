@@ -12,7 +12,7 @@ data class WeatherListModel(
         val mainTemp: Main,
         @SerializedName("dt_txt")
         var dateTime: String,
-        val weather: Weather
+        val weather: List<Weather>
     )
 
     data class City(
