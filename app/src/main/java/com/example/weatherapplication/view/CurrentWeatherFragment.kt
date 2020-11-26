@@ -3,6 +3,7 @@ package com.example.weatherapplication.view
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -16,25 +17,30 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
+import com.example.weatherapplication.model.LocationModel
 import com.example.weatherapplication.model.WeatherListModel
-import com.example.weatherapplication.presenter.WeatherInfoPresenter
+import com.example.weatherapplication.presenter.CurrentWeatherPresenter
 import com.example.weatherapplication.utils.*
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.fragment_current_weather.*
 import timber.log.Timber
 
 
-class CurrentWeatherFragment : Fragment(), ViewContract {
+class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
-    private lateinit var presenter: WeatherInfoPresenter
+    private lateinit var presenter: CurrentWeatherPresenter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var isCheckGPSEnable = false
 
     private var lat = Constants.DEFAULT_LAT
     private var lon = Constants.DEFAULT_LON
+    private lateinit var prefs: SharedPreferenceManager
+    private lateinit var textShare: String
+    private lateinit var locationModel: LocationModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prefs = SharedPreferenceManager.getInstance(requireContext())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         GpsUtil(requireContext()).turnGPSOn(object : GpsUtil.OnGpsListener {
             override fun gpsStatus(isGPSEnabled: Boolean) {
@@ -42,6 +48,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
             }
         })
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +60,11 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = WeatherInfoPresenter(this)
+        presenter = CurrentWeatherPresenter(this)
         invokeLocation()
+        shareTextButton.setOnClickListener {
+            presenter.onShareText()
+        }
 
 
     }
@@ -101,6 +111,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
             .addOnSuccessListener { location: Location? ->
                 lat = location?.latitude.toString()
                 lon = location?.longitude.toString()
+                locationModel = LocationModel(lat, lon)
+                prefs.saveLocation(locationModel)
                 presenter.loadDataCurrentWeather(lat, lon)
             }
     }
@@ -135,7 +147,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
 
         locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
         val temp = roundData(currentWeatherModel.main.temp)
-        tempTextView.text = "${temp}°С | ${currentWeatherModel.weather[0].description}"
+        val weatherDescription = currentWeatherModel.weather[0].description
+        tempTextView.text = "$temp°С | $weatherDescription"
         humidityTextView.text = "${currentWeatherModel.main.humidity} %"
         val visibility = meterToKm(currentWeatherModel.visibility)
         visibilityTextView.text = "$visibility km"
@@ -144,16 +157,29 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         speedTextView.text = "$speed km/h"
         val wind = windToDescription(currentWeatherModel.wind.deg)
         windDescriptionTextView.text = wind
+        textShare =
+            "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
     }
 
-    override fun loadListWeatherView(weatherListModel: WeatherListModel) {
-
-    }
 
     override fun loadErrorMessage(message: String) {
         Timber.e(message)
     }
 
+    override fun shareText() {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, textShare)
+        sendIntent.type = "text/plain"
+        Intent.createChooser(sendIntent, "Share weather")
+        startActivity(sendIntent)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dispose()
+    }
 
     companion object {
         private val PERMISSION = arrayOf(
@@ -162,3 +188,5 @@ class CurrentWeatherFragment : Fragment(), ViewContract {
         )
     }
 }
+
+

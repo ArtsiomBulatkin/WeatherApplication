@@ -3,11 +3,11 @@ package com.example.weatherapplication.model
 import com.google.gson.annotations.SerializedName
 
 data class WeatherListModel(
-    val list: List<WeatherModel>
+    val list: List<WeatherModel>,
+    val  city: City
 ) {
 
     data class WeatherModel(
-        val city: City,
         @SerializedName("main")
         val mainTemp: Main,
         @SerializedName("dt_txt")

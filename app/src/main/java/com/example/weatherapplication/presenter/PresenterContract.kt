@@ -1,7 +1,16 @@
 package com.example.weatherapplication.presenter
 
-interface PresenterContract {
-    fun loadDataCurrentWeather(lat: String, lon: String)
-    fun loadDataListWeather(lat: String, lon: String)
-    fun dispose()
+
+class PresenterContract {
+
+    interface CurrentWeatherContract {
+        fun loadDataCurrentWeather(lat: String, lon: String)
+        fun dispose()
+    }
+
+    interface WeatherListContract {
+        fun loadDataListWeather(lat: String, lon: String)
+        fun dispose()
+    }
+
 }

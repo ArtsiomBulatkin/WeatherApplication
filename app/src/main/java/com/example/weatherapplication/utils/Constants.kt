@@ -10,6 +10,8 @@ object Constants {
 
     const val PERMISSIONS_REQUEST: Int = 99
 
+    const val LOCATION = "LOCATION"
+
     const val DEFAULT_LAT = "51.509865"
     const val DEFAULT_LON = "-0.118092"
     const val GPS_REQUEST_CHECK_SETTINGS = 98

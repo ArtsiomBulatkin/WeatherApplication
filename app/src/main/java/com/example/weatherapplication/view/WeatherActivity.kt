@@ -4,52 +4,41 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.weatherapplication.R
-import com.example.weatherapplication.utils.Constants
 import kotlinx.android.synthetic.main.activity_weather.*
 
 class WeatherActivity : AppCompatActivity() {
 
+    private lateinit var fragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
 
-        val currentWeatherFragment = CurrentWeatherFragment()
-        val weatherListFragment = WeatherListFragment()
-        var active : Fragment = currentWeatherFragment
-
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragmentContainer, weatherListFragment, Constants.LIST_FRAG_TAG)
-            .hide(weatherListFragment)
-            .commit()
-
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragmentContainer, currentWeatherFragment, Constants.CURRENT_FRAG_TAG)
-            .commit()
-
+        loadFragment(CurrentWeatherFragment())
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
             when (item.itemId) {
                 R.id.action_item1 -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .hide(active)
-                        .show(currentWeatherFragment)
-                        .commit()
-                    active = currentWeatherFragment
+                    fragment = CurrentWeatherFragment()
+                    loadFragment(fragment)
+
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_item2 -> {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .hide(active)
-                        .show(weatherListFragment)
-                        .commit()
-                    active = weatherListFragment
-                    return@setOnNavigationItemSelectedListener true               }
+                    fragment = WeatherListFragment()
+                    loadFragment(fragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
                 else -> false
             }
         }
+    }
+
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
     }
 
 }
