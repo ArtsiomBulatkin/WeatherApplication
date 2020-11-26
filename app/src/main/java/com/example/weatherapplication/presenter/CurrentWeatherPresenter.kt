@@ -9,8 +9,7 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
 
-class CurrentWeatherPresenter(private val view: ViewContract.CurrentWeatherView)
-    : PresenterContract.CurrentWeatherContract {
+class CurrentWeatherPresenter(private val view: ViewContract.CurrentWeatherView) : PresenterContract.CurrentWeatherContract {
 
     private val repo = WeatherRepository()
     private val disposable = CompositeDisposable()

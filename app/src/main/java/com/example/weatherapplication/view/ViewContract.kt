@@ -10,8 +10,10 @@ class ViewContract {
         fun loadErrorMessage(message: String)
         fun shareText()
     }
-    interface WeatherListView{
 
+    interface WeatherListView {
+
+        fun loadLocation(lat: String?, lon: String?)
         fun loadListWeatherView(weatherListModel: WeatherListModel)
         fun loadErrorMessage(message: String)
 

@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.LocationModel
-import com.example.weatherapplication.model.WeatherListModel
 import com.example.weatherapplication.presenter.CurrentWeatherPresenter
 import com.example.weatherapplication.utils.*
 import com.google.android.gms.location.*
@@ -40,7 +39,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = SharedPreferenceManager.getInstance(requireContext())
+        prefs = SharedPreferenceManager()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         GpsUtil(requireContext()).turnGPSOn(object : GpsUtil.OnGpsListener {
             override fun gpsStatus(isGPSEnabled: Boolean) {
@@ -80,6 +79,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
+                        locationModel = LocationModel(lat, lon)
+                        prefs.setLocation(requireContext(),locationModel)
                         presenter.loadDataCurrentWeather(
                             lat,
                             lon
@@ -112,7 +113,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                 lat = location?.latitude.toString()
                 lon = location?.longitude.toString()
                 locationModel = LocationModel(lat, lon)
-                prefs.saveLocation(locationModel)
+                prefs.setLocation(requireContext(),locationModel)
                 presenter.loadDataCurrentWeather(lat, lon)
             }
     }
