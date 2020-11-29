@@ -38,7 +38,7 @@ class GpsUtil(private val context: Context) {
                             try {
                                 val resApiException = exception as ResolvableApiException
                                 resApiException.startResolutionForResult(
-                                    context,Constants.GPS_REQUEST_CHECK_SETTINGS
+                                    context, Constants.GPS_REQUEST_CHECK_SETTINGS
 
                                 )
                             } catch (sendIntentException: Exception) {

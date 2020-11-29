@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class WeatherListModel(
     val list: List<WeatherModel>,
-    val  city: City
+    val city: City
 ) {
 
     data class WeatherModel(

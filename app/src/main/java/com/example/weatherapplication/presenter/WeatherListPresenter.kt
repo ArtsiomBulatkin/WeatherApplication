@@ -2,6 +2,7 @@ package com.example.weatherapplication.presenter
 
 import android.content.Context
 import com.example.weatherapplication.model.LocationModel
+import com.example.weatherapplication.model.WeatherListModel
 import com.example.weatherapplication.model.WeatherRepository
 import com.example.weatherapplication.utils.SharedPreferenceManager
 import com.example.weatherapplication.view.ViewContract
@@ -30,12 +31,11 @@ class WeatherListPresenter(private val view: ViewContract.WeatherListView) :
             repo.getWeatherList(lat, lon)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ listWeather -> view.loadListWeatherView(listWeather) },
+                .subscribe({ listWeatherModel -> view.loadListWeatherView(listWeatherModel) },
                     { throwable -> view.loadErrorMessage("CurrentList Error occurred: $throwable") })
 
         )
     }
-
 
     override fun dispose() {
         disposable.dispose()

@@ -9,25 +9,25 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
 
-class CurrentWeatherPresenter(private val view: ViewContract.CurrentWeatherView) : PresenterContract.CurrentWeatherContract {
+class CurrentWeatherPresenter(private val view: ViewContract.CurrentWeatherView) :
+    PresenterContract.CurrentWeatherContract {
 
     private val repo = WeatherRepository()
     private val disposable = CompositeDisposable()
-
 
     override fun loadDataCurrentWeather(lat: String, lon: String) {
         disposable.add(
             repo.getWeather(lat, lon)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { currentWeather -> view.loadCurrentWeatherView(currentWeather) },
+                .subscribe({ currentWeather -> view.loadCurrentWeatherView(currentWeather) },
                     { throwable -> view.loadErrorMessage("CurrentWeather Error occurred: $throwable") })
 
 
         )
     }
 
-    fun onShareText (){
+    fun onShareText() {
         view.shareText()
     }
 

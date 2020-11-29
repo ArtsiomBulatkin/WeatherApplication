@@ -20,7 +20,9 @@ import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.LocationModel
 import com.example.weatherapplication.presenter.CurrentWeatherPresenter
 import com.example.weatherapplication.utils.*
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.location.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_current_weather.*
 import timber.log.Timber
 
@@ -30,7 +32,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     private lateinit var presenter: CurrentWeatherPresenter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var isCheckGPSEnable = false
-
     private var lat = Constants.DEFAULT_LAT
     private var lon = Constants.DEFAULT_LON
     private lateinit var prefs: SharedPreferenceManager
@@ -48,7 +49,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         })
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +58,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //shimmerWeatherImageView.startShimmer()
+
 
         presenter = CurrentWeatherPresenter(this)
         invokeLocation()
@@ -67,7 +69,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
 
     }
-
 
     private fun invokeLocation() {
         when {
@@ -80,7 +81,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                     .setMessage(getString(R.string.access_location_message))
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
                         locationModel = LocationModel(lat, lon)
-                        prefs.setLocation(requireContext(),locationModel)
+                        prefs.setLocation(requireContext(), locationModel)
                         presenter.loadDataCurrentWeather(
                             lat,
                             lon
@@ -113,7 +114,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                 lat = location?.latitude.toString()
                 lon = location?.longitude.toString()
                 locationModel = LocationModel(lat, lon)
-                prefs.setLocation(requireContext(),locationModel)
+                prefs.setLocation(requireContext(), locationModel)
                 presenter.loadDataCurrentWeather(lat, lon)
             }
     }
@@ -139,12 +140,12 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         }
     }
 
-
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
 
         val iconName = currentWeatherModel.weather[0].icon
         val iconUrl = "https://openweathermap.org/img/wn/$iconName@2x.png"
-        Glide.with(requireActivity()).load(iconUrl).into(weatherImageView)
+        Picasso.get().load(iconUrl).into(weatherImageView)
+        //Glide.with(requireActivity()).load(iconUrl).into(weatherImageView)
 
         locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
         val temp = roundData(currentWeatherModel.main.temp)
@@ -160,8 +161,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         windDescriptionTextView.text = wind
         textShare =
             "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
+        //shimmerWeatherImageView.stopShimmer()
     }
-
 
     override fun loadErrorMessage(message: String) {
         Timber.e(message)

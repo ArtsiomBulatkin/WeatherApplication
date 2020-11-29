@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".view.WeatherActivity"
-    >
+    tools:context=".view.WeatherActivity">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dp0"
         android:layout_weight="1" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

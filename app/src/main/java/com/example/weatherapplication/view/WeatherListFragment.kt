@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.WeatherListModel
 import com.example.weatherapplication.presenter.WeatherListPresenter
@@ -14,6 +15,7 @@ import timber.log.Timber
 class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
 
     private lateinit var presenter: WeatherListPresenter
+    private lateinit var adapter: AdapterRVWeatherList
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +27,9 @@ class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = AdapterRVWeatherList()
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
         presenter = WeatherListPresenter(this)
         presenter.loadLocation(requireContext())
 
@@ -35,10 +40,9 @@ class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
     }
 
     override fun loadListWeatherView(weatherListModel: WeatherListModel) {
+        cityTextView.text = weatherListModel.city.city
+        adapter.update(weatherListModel.list)
 
-        textView.text = weatherListModel.list[1].mainTemp.temp
-        //textView2.text = weatherListModel.list[0].mainTemp.temp
-        // textView3.text = weatherListModel.list[0].city.city
     }
 
     override fun loadErrorMessage(message: String) {

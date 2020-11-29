@@ -13,15 +13,21 @@ fun timeConverter(dateTime: String): String {
     return "${time.hour}:00"
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun dateToDayOfWeekly(dateTime: String): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val time = LocalDateTime.parse(dateTime, formatter)
+    return "${time.dayOfWeek}"
+}
+
 fun roundData(data: String): String {
     val tempRound = data.toDouble().roundToInt()
     return tempRound.toString()
 }
 
-fun meterToKm (int: Int): Int{
-return int / 1000
+fun meterToKm(int: Int): Int {
+    return int / 1000
 }
-
 
 fun windToDescription(deg: Int): String {
     if (deg in 360..21) return "N"
