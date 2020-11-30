@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun timeConverter(dateTime: String): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -17,7 +18,7 @@ fun timeConverter(dateTime: String): String {
 fun dateToDayOfWeekly(dateTime: String): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     val time = LocalDateTime.parse(dateTime, formatter)
-    return "${time.dayOfWeek}"
+    return time.dayOfWeek.toString()
 }
 
 fun roundData(data: String): String {
@@ -49,3 +50,4 @@ fun windToDescription(deg: Int): String {
 
     return "no data"
 }
+

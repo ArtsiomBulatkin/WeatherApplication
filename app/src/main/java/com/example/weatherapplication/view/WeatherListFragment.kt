@@ -15,7 +15,7 @@ import timber.log.Timber
 class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
 
     private lateinit var presenter: WeatherListPresenter
-    private lateinit var adapter: AdapterRVWeatherList
+    private lateinit var adapter: AdapterWeatherList
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +27,7 @@ class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = AdapterRVWeatherList()
+        adapter = AdapterWeatherList()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         presenter = WeatherListPresenter(this)
