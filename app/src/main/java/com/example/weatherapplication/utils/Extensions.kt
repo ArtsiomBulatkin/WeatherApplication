@@ -21,6 +21,7 @@ fun dateToDayOfWeekly(dateTime: String): String {
     return time.dayOfWeek.toString()
 }
 
+
 fun roundData(data: String): String {
     val tempRound = data.toDouble().roundToInt()
     return tempRound.toString()
