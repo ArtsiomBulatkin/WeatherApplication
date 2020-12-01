@@ -58,8 +58,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //shimmerWeatherImageView.startShimmer()
 
+        //shimmerWeatherImageView.startShimmer()
 
         presenter = CurrentWeatherPresenter(this)
         invokeLocation()

@@ -33,7 +33,7 @@ private class WeatherViewHolder(itemView: View) : ViewHolder(itemView) {
         timeTextView.text = timeConverter(data.weatherModel.dateTime)
         descriptionTextView.text = data.weatherModel.weather[0].description
         val temp = roundData(data.weatherModel.mainTemp.temp)
-        tempTextView.text = "$temp°С"
+        tempTextView.text = "$temp °С"
         Picasso.get()
             .load("https://openweathermap.org/img/wn/${data.weatherModel.weather[0].icon}@2x.png")
             .into(weatherImageView)

@@ -4,7 +4,7 @@ import android.view.View
 import com.example.weatherapplication.R
 import kotlinx.android.synthetic.main.header_item.view.*
 
-class HeaderItem(val text: String?) : Item() {
+class HeaderItem(val day: String?) : Item() {
 
     override val layoutId: Int = R.layout.header_item
 
@@ -20,6 +20,6 @@ private class HeaderViewHolder(itemView: View) : ViewHolder(itemView) {
 
     override fun bind(item: Item) {
         val data = item as HeaderItem
-        dayOfWeekTextView.text = data.text
+        dayOfWeekTextView.text = data.day
     }
 }
