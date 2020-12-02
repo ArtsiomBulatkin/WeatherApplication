@@ -2,9 +2,7 @@ package com.example.weatherapplication.model
 
 import com.example.weatherapplication.utils.Constants
 import io.reactivex.Single
-
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiClient {

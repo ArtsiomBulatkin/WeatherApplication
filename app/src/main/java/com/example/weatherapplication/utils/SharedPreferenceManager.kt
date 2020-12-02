@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.weatherapplication.model.LocationModel
 
-
 class SharedPreferenceManager {
 
     fun setLocation(context: Context, location: LocationModel) {
@@ -24,5 +23,4 @@ class SharedPreferenceManager {
             sharedPreferences.getString(Constants.SAVE_LON_TAG, null)
         )
     }
-
 }

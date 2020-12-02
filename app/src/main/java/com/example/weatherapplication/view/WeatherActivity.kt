@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_weather.*
 class WeatherActivity : AppCompatActivity() {
 
     private lateinit var fragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
@@ -33,12 +34,10 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
     }
-
 }

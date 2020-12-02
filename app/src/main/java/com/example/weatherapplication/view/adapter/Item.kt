@@ -11,6 +11,8 @@ abstract class Item {
     abstract fun provideViewHolder(itemView: View): ViewHolder
 
     fun createViewHolder(parent: ViewGroup): ViewHolder {
-        return provideViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false))
+        return provideViewHolder(
+            LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
+        )
     }
 }

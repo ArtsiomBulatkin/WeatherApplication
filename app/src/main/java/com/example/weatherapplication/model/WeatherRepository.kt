@@ -2,10 +2,9 @@ package com.example.weatherapplication.model
 
 import io.reactivex.Single
 
-
 class WeatherRepository {
 
-    private val api = JsonSingleton.api
+    private val api = ApiProvider.api
 
     fun getWeather(
         latitude: String,
@@ -20,6 +19,5 @@ class WeatherRepository {
     ): Single<WeatherListModel> {
         return api.getListWeather(latitude, longitude)
     }
-
 
 }

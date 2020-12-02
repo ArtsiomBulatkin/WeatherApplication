@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-
 
     <TextView
         android:id="@+id/todayTextView"
@@ -23,31 +20,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
+    <View
         android:id="@+id/line"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/sp2"
         android:layout_marginTop="@dimen/dp16"
         android:background="@color/yellow"
         android:gravity="center"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
-
 
     <ImageView
         android:id="@+id/weatherImageView"
         android:layout_width="@dimen/dp100"
         android:layout_height="@dimen/dp100"
         android:layout_marginTop="@dimen/dp32"
-
+        android:src="@drawable/ic_test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/line" />
-
 
     <TextView
         android:id="@+id/locationTextView"
@@ -94,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tempTextView" />
 
-    <LinearLayout
+    <View
         android:id="@+id/lineTwo"
         android:layout_width="@dimen/dp0"
         android:layout_height="1dp"
@@ -103,7 +96,6 @@
         android:layout_marginEnd="@dimen/dp100"
         android:background="@color/yellow"
         android:gravity="center"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,8 +117,8 @@
             app:layout_constraintEnd_toStartOf="@+id/visibilityImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/yellow"
-            app:srcCompat="@drawable/drops" />
+            app:srcCompat="@drawable/drops"
+            app:tint="@color/yellow" />
 
         <ImageView
             android:id="@+id/visibilityImageView"
@@ -137,8 +129,8 @@
             app:layout_constraintEnd_toStartOf="@+id/pressureImageView"
             app:layout_constraintStart_toEndOf="@id/humidityImageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/yellow"
-            app:srcCompat="@drawable/glasses" />
+            app:srcCompat="@drawable/glasses"
+            app:tint="@color/yellow" />
 
         <ImageView
             android:id="@+id/pressureImageView"
@@ -147,9 +139,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/visibilityImageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/yellow"
-            app:srcCompat="@drawable/barometer" />
-
+            app:srcCompat="@drawable/barometer"
+            app:tint="@color/yellow" />
 
         <TextView
             android:id="@+id/humidityTextView"
@@ -208,8 +199,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/speedImageView"
             app:layout_constraintTop_toBottomOf="@+id/visibilityTextView"
-            app:tint="@color/yellow"
-            app:srcCompat="@drawable/pressure" />
+            app:srcCompat="@drawable/pressure"
+            app:tint="@color/yellow" />
 
         <TextView
             android:id="@+id/speedTextView"
@@ -235,10 +226,9 @@
             app:layout_constraintStart_toStartOf="@+id/windImageView"
             app:layout_constraintTop_toBottomOf="@+id/windImageView" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <View
         android:id="@+id/lineThird"
         android:layout_width="@dimen/dp0"
         android:layout_height="1dp"
@@ -247,7 +237,6 @@
         android:layout_marginEnd="@dimen/dp100"
         android:background="@color/yellow"
         android:gravity="center"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

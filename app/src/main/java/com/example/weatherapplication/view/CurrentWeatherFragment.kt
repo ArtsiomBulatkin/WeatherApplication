@@ -3,11 +3,9 @@ package com.example.weatherapplication.view
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,13 +23,12 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_current_weather.*
 import timber.log.Timber
 
-
 class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     private lateinit var presenter: CurrentWeatherPresenter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var lat = Constants.DEFAULT_LAT
-    private var lon = Constants.DEFAULT_LON
+    private lateinit var lat: String
+    private lateinit var lon: String
     private lateinit var prefs: SharedPreferenceManager
     private lateinit var textShare: String
     private lateinit var locationModel: LocationModel
@@ -50,26 +47,18 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         progressBar.visibility = View.VISIBLE
         presenter = CurrentWeatherPresenter(this)
         invokeLocation()
         shareTextButton.setOnClickListener {
             presenter.onShareText()
         }
-
-
     }
 
     private fun invokeLocation() {
         when {
-            !NetWorkConnection.isNetworkAvailable(requireContext()) -> {
-                locationModel = LocationModel(lat, lon)
-                prefs.setLocation(requireContext(), locationModel)
-                presenter.loadDataCurrentWeather(
-                    lat,
-                    lon
-                )
+            !NetworkHelper.isNetworkAvailable(requireContext()) -> {
+                progressBar.visibility = View.GONE
                 Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
             }
             allPermissionsGranted() -> {
@@ -80,12 +69,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
-                        locationModel = LocationModel(lat, lon)
-                        prefs.setLocation(requireContext(), locationModel)
-                        presenter.loadDataCurrentWeather(
-                            lat,
-                            lon
-                        )
+                        Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
                     }
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
@@ -110,7 +94,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                 presenter.loadDataCurrentWeather(lat, lon)
             }
     }
-
 
     private fun allPermissionsGranted() = PERMISSION.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
@@ -172,7 +155,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         presenter.dispose()
     }
 
-
     companion object {
         private val PERMISSION = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -180,5 +162,3 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         )
     }
 }
-
-

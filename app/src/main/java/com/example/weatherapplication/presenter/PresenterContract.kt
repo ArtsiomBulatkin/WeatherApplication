@@ -15,6 +15,4 @@ class PresenterContract {
         fun loadDataListWeather(lat: String, lon: String)
         fun dispose()
     }
-
-
 }

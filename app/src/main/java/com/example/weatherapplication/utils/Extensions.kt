@@ -6,7 +6,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 fun timeConverter(dateTime: String): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -21,7 +20,6 @@ fun dateToDayOfWeekly(dateTime: String): String {
     return time.dayOfWeek.toString()
 }
 
-
 fun roundData(data: String): String {
     val tempRound = data.toDouble().roundToInt()
     return tempRound.toString()
@@ -32,7 +30,7 @@ fun meterToKm(int: Int): Int {
 }
 
 fun windToDescription(deg: Int): String {
-    if (deg in 360..21) return "N"
+    if (deg == 360) return "N"
     if (deg in 22..44) return "NNE"
     if (deg in 45..66) return "NE"
     if (deg in 67..89) return "ENE"
@@ -51,6 +49,3 @@ fun windToDescription(deg: Int): String {
 
     return "no data"
 }
-
-
-

@@ -28,5 +28,4 @@ data class WeatherListModel(
         val description: String,
         val icon: String
     )
-
 }

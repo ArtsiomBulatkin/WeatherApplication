@@ -11,7 +11,6 @@ class HeaderItem(val day: String?) : Item() {
     override fun provideViewHolder(itemView: View): ViewHolder {
         return HeaderViewHolder(itemView)
     }
-
 }
 
 private class HeaderViewHolder(itemView: View) : ViewHolder(itemView) {
