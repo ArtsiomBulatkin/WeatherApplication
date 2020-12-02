@@ -19,7 +19,7 @@
     <string name="access_location_message">This application requires access to your location to function!</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="gps_required_message">GPS is required for this application to function!</string>
+    <string name="internet_required_message">Internet is required for this application to function!</string>
     <string name="today">Today</string>
     <string name="forecast">Forecast</string>
     <string name="qq">|</string>

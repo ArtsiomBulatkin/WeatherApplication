@@ -17,7 +17,7 @@
         android:layout_marginBottom="@dimen/dp8"
         android:text="@string/today"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp24"
+        android:textSize="@dimen/sp20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

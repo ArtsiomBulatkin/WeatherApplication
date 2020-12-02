@@ -52,3 +52,5 @@ fun windToDescription(deg: Int): String {
     return "no data"
 }
 
+
+

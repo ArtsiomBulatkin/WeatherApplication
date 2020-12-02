@@ -3,24 +3,23 @@ package com.example.weatherapplication.view
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.LocationModel
 import com.example.weatherapplication.presenter.CurrentWeatherPresenter
 import com.example.weatherapplication.utils.*
-import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.location.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_current_weather.*
@@ -31,7 +30,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     private lateinit var presenter: CurrentWeatherPresenter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var isCheckGPSEnable = false
     private var lat = Constants.DEFAULT_LAT
     private var lon = Constants.DEFAULT_LON
     private lateinit var prefs: SharedPreferenceManager
@@ -42,25 +40,18 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         super.onCreate(savedInstanceState)
         prefs = SharedPreferenceManager()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        GpsUtil(requireContext()).turnGPSOn(object : GpsUtil.OnGpsListener {
-            override fun gpsStatus(isGPSEnabled: Boolean) {
-                this@CurrentWeatherFragment.isCheckGPSEnable = isGPSEnabled
-            }
-        })
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View =
-        inflater.inflate(R.layout.fragment_current_weather, container, false)
+    ): View = inflater.inflate(R.layout.fragment_current_weather, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //shimmerWeatherImageView.startShimmer()
-
+        progressBar.visibility = View.VISIBLE
         presenter = CurrentWeatherPresenter(this)
         invokeLocation()
         shareTextButton.setOnClickListener {
@@ -72,6 +63,15 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     private fun invokeLocation() {
         when {
+            !NetWorkConnection.isNetworkAvailable(requireContext()) -> {
+                locationModel = LocationModel(lat, lon)
+                prefs.setLocation(requireContext(), locationModel)
+                presenter.loadDataCurrentWeather(
+                    lat,
+                    lon
+                )
+                Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
+            }
             allPermissionsGranted() -> {
                 getLocation()
             }
@@ -91,14 +91,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                         requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
                         getLocation()
                     }
-                    .show()
-            }
-            !isCheckGPSEnable -> {
-                Toast.makeText(
-                    context,
-                    R.string.gps_required_message,
-                    Toast.LENGTH_LONG
-                )
                     .show()
             }
             else -> {
@@ -145,8 +137,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         val iconName = currentWeatherModel.weather[0].icon
         val iconUrl = "https://openweathermap.org/img/wn/$iconName@2x.png"
         Picasso.get().load(iconUrl).into(weatherImageView)
-        //Glide.with(requireActivity()).load(iconUrl).into(weatherImageView)
-
         locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
         val temp = roundData(currentWeatherModel.main.temp)
         val weatherDescription = currentWeatherModel.weather[0].description
@@ -159,9 +149,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         speedTextView.text = "$speed km/h"
         val wind = windToDescription(currentWeatherModel.wind.deg)
         windDescriptionTextView.text = wind
-        textShare =
-            "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
-        //shimmerWeatherImageView.stopShimmer()
+        textShare = "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
+        progressBar.visibility = View.GONE
     }
 
     override fun loadErrorMessage(message: String) {
@@ -182,6 +171,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         super.onDestroy()
         presenter.dispose()
     }
+
 
     companion object {
         private val PERMISSION = arrayOf(
