@@ -13,8 +13,6 @@
     <string name="time">13:00</string>
     <string name="description">Clear</string>
     <string name="temp">22°С</string>
-
-
     <string name="location_permission">Location Permission</string>
     <string name="access_location_message">This application requires access to your location to function!</string>
     <string name="no">No</string>
@@ -23,4 +21,7 @@
     <string name="today">Today</string>
     <string name="forecast">Forecast</string>
     <string name="qq">|</string>
+    <string name="type">text/plain</string>
+    <string name="send_intent_title">Share weather</string>
+    <string name="text_share">no data</string>
 </resources>

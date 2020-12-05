@@ -33,6 +33,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = SharedPreferenceManager()
+        textShare = getString(R.string.text_share)
     }
 
     override fun onCreateView(
@@ -116,7 +117,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     }
 
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
-
         val iconName = currentWeatherModel.weather[0].icon
         val iconUrl = "https://openweathermap.org/img/wn/$iconName@2x.png"
         Picasso.get().load(iconUrl).into(weatherImageView)
@@ -132,8 +132,7 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         speedTextView.text = "$speed km/h"
         val wind = windToDescription(currentWeatherModel.wind.deg)
         windDescriptionTextView.text = wind
-        textShare =
-            "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
+        textShare = "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
         progressBar.visibility = View.GONE
     }
 
@@ -148,11 +147,10 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, textShare)
-            sendIntent.type = "text/plain"
-            Intent.createChooser(sendIntent, "Share weather")
+            sendIntent.type = getString(R.string.type)
+            Intent.createChooser(sendIntent, getString(R.string.send_intent_title))
             startActivity(sendIntent)
         }
-
     }
 
     override fun onDestroy() {
