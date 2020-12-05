@@ -1,11 +1,9 @@
 package com.example.weatherapplication.view
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.CurrentWeatherModel
 import com.example.weatherapplication.model.LocationModel
 import com.example.weatherapplication.presenter.CurrentWeatherPresenter
 import com.example.weatherapplication.utils.*
-import com.google.android.gms.location.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_current_weather.*
 import timber.log.Timber
@@ -26,7 +24,6 @@ import timber.log.Timber
 class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     private lateinit var presenter: CurrentWeatherPresenter
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lat: String
     private lateinit var lon: String
     private lateinit var prefs: SharedPreferenceManager
@@ -36,7 +33,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = SharedPreferenceManager()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     override fun onCreateView(
@@ -59,7 +55,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         when {
             !NetworkHelper.isNetworkAvailable(requireContext()) -> {
                 progressBar.visibility = View.GONE
-                Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG)
+                    .show()
             }
             allPermissionsGranted() -> {
                 getLocation()
@@ -69,7 +66,11 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
                     .setTitle(getString(R.string.location_permission))
                     .setMessage(getString(R.string.access_location_message))
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
-                        Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            context,
+                            R.string.internet_required_message,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         requestPermissions(PERMISSION, Constants.PERMISSIONS_REQUEST)
@@ -83,16 +84,16 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun getLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                lat = location?.latitude.toString()
-                lon = location?.longitude.toString()
+        LocationHelper.getInstance(requireContext()).observe(this, Observer { location ->
+            if (location != null) {
+                lat = location.latitude.toString()
+                lon = location.longitude.toString()
                 locationModel = LocationModel(lat, lon)
                 prefs.setLocation(requireContext(), locationModel)
                 presenter.loadDataCurrentWeather(lat, lon)
             }
+        })
     }
 
     private fun allPermissionsGranted() = PERMISSION.all {
@@ -111,7 +112,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.PERMISSIONS_REQUEST) {
             getLocation()
-
         }
     }
 
@@ -132,7 +132,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         speedTextView.text = "$speed km/h"
         val wind = windToDescription(currentWeatherModel.wind.deg)
         windDescriptionTextView.text = wind
-        textShare = "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
+        textShare =
+            "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
         progressBar.visibility = View.GONE
     }
 
@@ -141,12 +142,16 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     }
 
     override fun shareText() {
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_TEXT, textShare)
-        sendIntent.type = "text/plain"
-        Intent.createChooser(sendIntent, "Share weather")
-        startActivity(sendIntent)
+        if (!NetworkHelper.isNetworkAvailable(requireContext())) {
+            Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
+        } else {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, textShare)
+            sendIntent.type = "text/plain"
+            Intent.createChooser(sendIntent, "Share weather")
+            startActivity(sendIntent)
+        }
 
     }
 
