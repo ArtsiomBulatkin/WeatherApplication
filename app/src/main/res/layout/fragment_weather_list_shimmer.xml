@@ -11,38 +11,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp8"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:text="@string/location"
+        android:background="@color/shimmerItemColor"
+        android:textColor="@color/shimmerItemColor"
         android:textSize="@dimen/sp20"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp0"
         android:layout_marginStart="@dimen/dp8"
         android:layout_marginTop="@dimen/dp8"
         android:layout_marginEnd="@dimen/dp8"
         android:layout_marginBottom="@dimen/dp8"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/cityTextView">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerListLoadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shimmer_duration="600">
+        <include layout="@layout/header_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
+        <include layout="@layout/weather_item_shimmer" />
 
-        <include layout="@layout/fragment_weather_list_shimmer" />
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

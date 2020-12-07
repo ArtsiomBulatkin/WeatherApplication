@@ -9,17 +9,20 @@
         android:id="@+id/locationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:background="@color/shimmerItemColor"
+        android:text="@string/london_uk"
+        android:textColor="@color/shimmerItemColor"
         android:textSize="@dimen/sp24"
         app:layout_constraintBottom_toTopOf="@+id/weatherImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <View
         android:id="@+id/weatherImageView"
         android:layout_width="@dimen/dp120"
         android:layout_height="@dimen/dp120"
+        android:background="@color/shimmerItemColor"
         app:layout_constraintBottom_toTopOf="@+id/tempTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +32,9 @@
         android:id="@+id/tempTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:background="@color/shimmerItemColor"
+        android:text="@string/temp"
+        android:textColor="@color/shimmerItemColor"
         android:textSize="@dimen/sp120"
         app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +45,9 @@
         android:id="@+id/descriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:background="@color/shimmerItemColor"
+        android:text="@string/description"
+        android:textColor="@color/shimmerItemColor"
         android:textSize="@dimen/sp30"
         app:layout_constraintBottom_toTopOf="@+id/weather_details"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,42 +64,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTextView">
 
-        <ImageView
+        <View
             android:id="@+id/humidityImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toStartOf="@+id/visibilityImageView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/drops"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <View
             android:id="@+id/visibilityImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toStartOf="@+id/pressureImageView"
             app:layout_constraintStart_toEndOf="@id/humidityImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/glasses"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <View
             android:id="@+id/pressureImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toStartOf="@+id/speedImageView"
             app:layout_constraintStart_toEndOf="@id/visibilityImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/barometer"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/humidityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:textColor="@color/white"
+            android:background="@color/shimmerItemColor"
+            android:text="@string/visibility"
+            android:textColor="@color/shimmerItemColor"
             android:textSize="@dimen/sp16"
             app:layout_constraintEnd_toEndOf="@+id/humidityImageView"
             app:layout_constraintStart_toStartOf="@+id/humidityImageView"
@@ -103,7 +106,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:textColor="@color/white"
+            android:background="@color/shimmerItemColor"
+            android:text="@string/visibility"
+            android:textColor="@color/shimmerItemColor"
             android:textSize="@dimen/sp16"
             app:layout_constraintEnd_toEndOf="@+id/visibilityImageView"
             app:layout_constraintStart_toStartOf="@+id/visibilityImageView"
@@ -114,38 +119,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:textColor="@color/white"
+            android:background="@color/shimmerItemColor"
+            android:text="@string/visibility"
+            android:textColor="@color/shimmerItemColor"
             android:textSize="@dimen/sp16"
             app:layout_constraintEnd_toEndOf="@+id/pressureImageView"
             app:layout_constraintStart_toStartOf="@+id/pressureImageView"
             app:layout_constraintTop_toBottomOf="@+id/pressureImageView" />
 
-        <ImageView
+        <View
             android:id="@+id/speedImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toStartOf="@+id/windImageView"
             app:layout_constraintStart_toEndOf="@+id/pressureImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/wind"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <View
             android:id="@+id/windImageView"
             android:layout_width="@dimen/dp36"
             android:layout_height="@dimen/dp36"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/speedImageView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/pressure"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/speedTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:textColor="@color/white"
+            android:background="@color/shimmerItemColor"
+            android:text="@string/visibility"
+            android:textColor="@color/shimmerItemColor"
             android:textSize="@dimen/sp16"
             app:layout_constraintEnd_toEndOf="@+id/speedImageView"
             app:layout_constraintStart_toStartOf="@+id/speedImageView"
@@ -156,7 +161,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:textColor="@color/white"
+            android:background="@color/shimmerItemColor"
+            android:text="@string/visibility"
+            android:textColor="@color/shimmerItemColor"
             android:textSize="@dimen/sp16"
             app:layout_constraintEnd_toEndOf="@+id/windImageView"
             app:layout_constraintStart_toStartOf="@+id/windImageView"
@@ -176,19 +183,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weather_details" />
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerCurrentLoadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shimmer_duration="600">
-
-        <include layout="@layout/fragment_current_weather_shimmer" />
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

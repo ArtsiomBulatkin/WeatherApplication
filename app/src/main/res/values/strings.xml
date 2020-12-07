@@ -12,7 +12,7 @@
     <string name="london_uk">London, UK</string>
     <string name="time">13:00</string>
     <string name="description">Clear</string>
-    <string name="temp">22°С</string>
+    <string name="temp">22</string>
     <string name="location_permission">Location Permission</string>
     <string name="access_location_message">This application requires access to your location to function!</string>
     <string name="no">No</string>
@@ -24,4 +24,9 @@
     <string name="type">text/plain</string>
     <string name="send_intent_title">Share weather</string>
     <string name="text_share">no data</string>
+    <string name="_q">°</string>
+    <string name="location">London</string>
+    <string name="pressure">1019</string>
+    <string name="humidity_name">Humidity</string>
+    <string name="humidity">90%</string>
 </resources>

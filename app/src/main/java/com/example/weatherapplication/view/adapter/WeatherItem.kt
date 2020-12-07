@@ -17,7 +17,6 @@ class WeatherItem(val weatherModel: WeatherListModel.WeatherModel) : Item() {
     override fun provideViewHolder(itemView: View): ViewHolder {
         return WeatherViewHolder(itemView)
     }
-
 }
 
 private class WeatherViewHolder(itemView: View) : ViewHolder(itemView) {
@@ -26,16 +25,22 @@ private class WeatherViewHolder(itemView: View) : ViewHolder(itemView) {
     private var descriptionTextView = itemView.descriptionTextView
     private var tempTextView = itemView.tempTextView
     private var weatherImageView = itemView.weatherImageView
+    private var pressureTextView = itemView.pressureTextView
+    private var humidityTextView = itemView.humidityTextView
+    private var humidityNameTextView = itemView.humidityNameTextView
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun bind(item: Item) {
         val data = item as WeatherItem
         timeTextView.text = timeConverter(data.weatherModel.dateTime)
         descriptionTextView.text = data.weatherModel.weather[0].description
-        val temp = roundData(data.weatherModel.mainTemp.temp)
+        val temp = roundData(data.weatherModel.main.temp)
         tempTextView.text = "$temp°"
         Picasso.get()
             .load("https://openweathermap.org/img/wn/${data.weatherModel.weather[0].icon}@2x.png")
             .into(weatherImageView)
+        pressureTextView.text = "${data.weatherModel.main.pressure} MPH"
+        humidityTextView.text = "${data.weatherModel.main.humidity}%"
+        humidityNameTextView.text = "Humidity"
     }
 }

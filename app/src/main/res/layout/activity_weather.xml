@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".view.WeatherActivity">
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp52"
         android:layout_gravity="start"
-        android:background="@color/white"
+        android:background="@color/background"
         app:itemIconTint="@color/bottom_navigation_item_colors"
         app:itemTextColor="@color/bottom_navigation_item_colors"
         app:layout_constraintBottom_toBottomOf="parent"

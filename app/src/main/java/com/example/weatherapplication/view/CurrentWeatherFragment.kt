@@ -44,8 +44,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progressBar.visibility = View.VISIBLE
         presenter = CurrentWeatherPresenter(this)
+        shimmerCurrentLoadingView.startShimmer()
         invokeLocation()
         shareTextButton.setOnClickListener {
             presenter.onShareText()
@@ -55,7 +55,6 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     private fun invokeLocation() {
         when {
             !NetworkHelper.isNetworkAvailable(requireContext()) -> {
-                progressBar.visibility = View.GONE
                 Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG)
                     .show()
             }
@@ -117,13 +116,15 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
     }
 
     override fun loadCurrentWeatherView(currentWeatherModel: CurrentWeatherModel) {
+        shimmerCurrentLoadingView.stopShimmer()
+        shimmerCurrentLoadingView.visibility = View.GONE
         val iconName = currentWeatherModel.weather[0].icon
         val iconUrl = "https://openweathermap.org/img/wn/$iconName@2x.png"
         Picasso.get().load(iconUrl).into(weatherImageView)
         locationTextView.text = "${currentWeatherModel.city}, ${currentWeatherModel.sys.country}"
         val temp = roundData(currentWeatherModel.main.temp)
-        val weatherDescription = currentWeatherModel.weather[0].description
-        tempTextView.text = "$temp°С | $weatherDescription"
+        tempTextView.text = "$temp°"
+        descriptionTextView.text = currentWeatherModel.weather[0].description
         humidityTextView.text = "${currentWeatherModel.main.humidity} %"
         val visibility = meterToKm(currentWeatherModel.visibility)
         visibilityTextView.text = "$visibility km"
@@ -132,8 +133,8 @@ class CurrentWeatherFragment : Fragment(), ViewContract.CurrentWeatherView {
         speedTextView.text = "$speed km/h"
         val wind = windToDescription(currentWeatherModel.wind.deg)
         windDescriptionTextView.text = wind
-        textShare = "The current weather today in ${currentWeatherModel.city}: $weatherDescription, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
-        progressBar.visibility = View.GONE
+        textShare =
+            "The current weather today in ${currentWeatherModel.city}: ${currentWeatherModel.weather[0].description}, $temp°С, humidity ${humidityTextView.text}, visibility ${visibilityTextView.text}, wind speed ${speedTextView.text}, direction of the wind ${windDescriptionTextView.text}"
     }
 
     override fun loadErrorMessage(message: String) {

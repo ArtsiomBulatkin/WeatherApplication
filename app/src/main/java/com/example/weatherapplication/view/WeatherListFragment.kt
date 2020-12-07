@@ -14,6 +14,7 @@ import com.example.weatherapplication.presenter.WeatherListPresenter
 import com.example.weatherapplication.utils.NetworkHelper
 import com.example.weatherapplication.view.adapter.Item
 import com.example.weatherapplication.view.adapter.WeatherListAdapter
+import kotlinx.android.synthetic.main.fragment_current_weather.*
 import kotlinx.android.synthetic.main.fragment_weather_list.*
 import timber.log.Timber
 
@@ -35,14 +36,14 @@ class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
         adapter = WeatherListAdapter()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        shimmerListLoadingView.stopShimmer()
         presenter = WeatherListPresenter(this)
 
         if (!NetworkHelper.isNetworkAvailable(requireContext())) {
             Toast.makeText(context, R.string.internet_required_message, Toast.LENGTH_LONG).show()
-        }else{
+        } else {
             presenter.loadLocation(requireContext())
         }
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -51,6 +52,8 @@ class WeatherListFragment : Fragment(), ViewContract.WeatherListView {
     }
 
     override fun loadListWeatherView(list: List<Item>, city: String) {
+        shimmerListLoadingView.stopShimmer()
+        shimmerListLoadingView.visibility = View.GONE
         adapter.setItem(list)
         cityTextView.text = city
     }

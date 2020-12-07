@@ -8,8 +8,7 @@ data class WeatherListModel(
 ) {
 
     data class WeatherModel(
-        @SerializedName("main")
-        val mainTemp: Main,
+        val main: Main,
         @SerializedName("dt_txt")
         var dateTime: String,
         val weather: List<Weather>
@@ -21,10 +20,13 @@ data class WeatherListModel(
     )
 
     data class Main(
-        val temp: String
+        val temp: String,
+        val pressure: String,
+        val humidity: String
     )
 
     data class Weather(
+        @SerializedName("main")
         val description: String,
         val icon: String
     )
